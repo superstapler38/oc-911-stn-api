@@ -14,6 +14,12 @@ const User = require("../models/User");
 // @route   POST /api/v1/auth/register
 // @access  Public
 exports.register = asyncHandler(async(req, res, next) => {
+    const { fname, lname, uid, role, email, password } = req.body;
+    
+    if(!fname || !lname || !uid || !role || !email || !password) {
+        return next(new ErrorResponse('Please complete required fields', 400));
+    }
+    
     const user = await User.create(req.body);
     sendTokenResponse(user, 200, res);
 });
